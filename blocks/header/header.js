@@ -26,8 +26,9 @@ function closeMenu(nav) {
 /**
  * Loads and decorates the header/nav.
  * Content-first: all labels, links, images, and locale entries come from the
- * nav fragment (content/nav.plain.html). This module reads that DOM and adds
- * structure + interactive controls (search input, locale toggle, hamburger).
+ * nav fragment (content/nav.plain.html). This module reads that DOM and builds
+ * a two-tier header — a dark utility bar (Sign In + locale) above a white main
+ * bar (logo, primary nav, search) — matching the WKND source.
  * @param {Element} block The header block element
  */
 export default async function decorate(block) {
@@ -45,24 +46,25 @@ export default async function decorate(block) {
   nav.id = 'nav';
   while (fragment.firstElementChild) nav.append(fragment.firstElementChild);
 
-  // sections in fragment order: brand, primary nav, locale selector
-  if (nav.children[0]) nav.children[0].classList.add('nav-brand');
-  if (nav.children[1]) nav.children[1].classList.add('nav-sections');
-  if (nav.children[2]) nav.children[2].classList.add('nav-locale');
+  // fragment sections, in order: brand (logo + Sign In), primary nav, locale selector
+  const brandSection = nav.children[0];
+  const navSection = nav.children[1];
+  const localeSection = nav.children[2];
+  if (brandSection) brandSection.classList.add('nav-brand');
+  if (navSection) navSection.classList.add('nav-sections');
+  if (localeSection) localeSection.classList.add('nav-locale');
 
-  // Promote the primary-nav <ul> to a direct child of <nav> (nav > ul > li),
-  // matching the source's landmark shape so nav items are recognised as
-  // top-level triggers by tooling and assistive tech.
-  const sectionsWrap = nav.querySelector('.nav-sections');
-  if (sectionsWrap) {
-    const list = sectionsWrap.querySelector(':scope > ul');
+  // Promote the primary-nav <ul> to a direct child (nav > ul > li landmark shape)
+  if (navSection) {
+    const list = navSection.querySelector(':scope > ul');
     if (list) {
       list.classList.add('nav-sections');
-      sectionsWrap.replaceWith(list);
+      navSection.replaceWith(list);
     }
   }
+  const navList = nav.querySelector('ul.nav-sections');
 
-  // --- search control (built in JS, not in the fragment) ---
+  // search control (built in JS, not in the fragment)
   const search = document.createElement('div');
   search.className = 'nav-search';
   const searchInput = document.createElement('input');
@@ -71,19 +73,17 @@ export default async function decorate(block) {
   searchInput.setAttribute('aria-label', 'Search');
   search.append(searchInput);
 
-  // --- locale toggle (reads current locale label + wraps the country grid) ---
-  const localeSection = nav.querySelector('.nav-locale');
+  // locale toggle (reads current locale label + wraps the country grid)
   if (localeSection) {
     const grid = localeSection.querySelector('ul');
     if (grid) {
       grid.classList.add('nav-locale-panel');
       grid.hidden = true;
     }
-
     const toggle = document.createElement('button');
     toggle.type = 'button';
     toggle.className = 'nav-locale-toggle';
-    toggle.textContent = 'en-US';
+    toggle.innerHTML = '<span class="nav-locale-flag"></span><span class="nav-locale-label">EN-US</span>';
     toggle.setAttribute('aria-expanded', 'false');
     toggle.setAttribute('aria-haspopup', 'true');
     toggle.addEventListener('click', () => {
@@ -94,7 +94,15 @@ export default async function decorate(block) {
     localeSection.prepend(toggle);
   }
 
-  // --- hamburger for mobile ---
+  // Sign In utility link (pull it out of the brand section)
+  let signInWrap = null;
+  const signIn = brandSection && brandSection.querySelector('a[href="#sign-in"]');
+  if (signIn) {
+    signInWrap = signIn.closest('p');
+    signInWrap.classList.add('nav-signin');
+  }
+
+  // hamburger for mobile
   const hamburger = document.createElement('div');
   hamburger.className = 'nav-hamburger';
   hamburger.innerHTML = `<button type="button" aria-controls="nav" aria-label="Open navigation">
@@ -107,18 +115,25 @@ export default async function decorate(block) {
     button.setAttribute('aria-label', expanded ? 'Open navigation' : 'Close navigation');
     document.body.style.overflowY = expanded || isDesktop.matches ? '' : 'hidden';
   });
-  nav.prepend(hamburger);
+
+  // --- assemble two tiers ---
+  // Tier 1: dark utility bar (Sign In + locale), right-aligned
+  const utilityBar = document.createElement('div');
+  utilityBar.className = 'nav-utility';
+  if (signInWrap) utilityBar.append(signInWrap);
+  if (localeSection) utilityBar.append(localeSection);
+
+  // Tier 2: white main bar (hamburger + logo + nav + search)
+  const mainBar = document.createElement('div');
+  mainBar.className = 'nav-main';
+  mainBar.append(hamburger);
+  if (brandSection) mainBar.append(brandSection);
+  if (navList) mainBar.append(navList);
+  mainBar.append(search);
+
+  nav.textContent = '';
+  nav.append(utilityBar, mainBar);
   nav.setAttribute('aria-expanded', 'false');
-
-  // place search after the brand section
-  const brandSection = nav.querySelector('.nav-brand');
-  if (brandSection) brandSection.append(search);
-
-  // The utility "Sign In" link renders in the brand row (source shows it as a
-  // top utility link); tag it so CSS can position it. "Home" stays as the first
-  // primary-nav item. Both come from the fragment (content-first).
-  const signIn = brandSection && brandSection.querySelector('a[href="#sign-in"]');
-  if (signIn) signIn.closest('p').classList.add('nav-signin');
 
   // close panels/menu when crossing between mobile and desktop
   isDesktop.addEventListener('change', () => {
