@@ -11,7 +11,22 @@
       ],
       "coverageGaps": [],
       "description": "Content landing page built from multiple stacked hero banners over default-content sections.",
-      "blocks": []
+      "blocks": [
+        {
+          "name": "columns-featured",
+          "instances": [
+            ".teaser.cmp-teaser--featured",
+            ".cmp-teaser--featured"
+          ]
+        },
+        {
+          "name": "cards-article",
+          "instances": [
+            ".image-list.list"
+          ]
+        }
+      ],
+      "representativeUrl": "https://wknd.site/us/en/magazine.html"
     },
     {
       "name": "adventure-detail",
@@ -51,7 +66,24 @@
       ],
       "coverageGaps": [],
       "description": "Detail page: breadcrumbs bar, image carousel and a tabbed body with itinerary/details columns.",
-      "blocks": []
+      "blocks": [
+        {
+          "name": "carousel-hero",
+          "instances": [
+            ".carousel.cmp-carousel--mini",
+            ".cmp-carousel--mini",
+            ".carousel.panelcontainer"
+          ]
+        },
+        {
+          "name": "columns-detail",
+          "instances": [
+            "main.cmp-layout-container--fixed .aem-Grid--default--12:has(> .tabs)",
+            ".cmp-layout-container--fixed > .cmp-container > .aem-Grid"
+          ]
+        }
+      ],
+      "representativeUrl": "https://wknd.site/us/en/adventures/downhill-skiing-wyoming.html"
     },
     {
       "name": "category-listing",
@@ -61,7 +93,22 @@
       ],
       "coverageGaps": [],
       "description": "Listing page: single hero banner followed by a tabbed/filtered grid of linked cards.",
-      "blocks": []
+      "blocks": [
+        {
+          "name": "hero-banner",
+          "instances": [
+            ".teaser.cmp-teaser--hero",
+            ".cmp-teaser--hero"
+          ]
+        },
+        {
+          "name": "cards-article",
+          "instances": [
+            ".cmp-tabs__tabpanel--active .image-list.list"
+          ]
+        }
+      ],
+      "representativeUrl": "https://wknd.site/us/en/adventures.html"
     },
     {
       "name": "faq",
@@ -71,7 +118,16 @@
       ],
       "coverageGaps": [],
       "description": "FAQ page: hero header followed by an accordion of expandable question/answer rows.",
-      "blocks": []
+      "blocks": [
+        {
+          "name": "accordion-faq",
+          "instances": [
+            ".accordion.cmp-accordion, .accordion.panelcontainer",
+            ".cmp-accordion"
+          ]
+        }
+      ],
+      "representativeUrl": "https://wknd.site/us/en/faqs.html"
     },
     {
       "name": "homepage",
@@ -90,7 +146,36 @@
       ],
       "coverageGaps": [],
       "description": "Locale landing page: full-width carousel, stacked hero banners and a cards feature grid across ~14 sections.",
-      "blocks": []
+      "blocks": [
+        {
+          "name": "carousel-hero",
+          "instances": [
+            ".carousel.cmp-carousel--hero",
+            ".cmp-carousel--hero"
+          ]
+        },
+        {
+          "name": "columns-featured",
+          "instances": [
+            ".teaser.cmp-teaser--featured",
+            ".cmp-teaser--featured"
+          ]
+        },
+        {
+          "name": "cards-article",
+          "instances": [
+            ".image-list.list"
+          ]
+        },
+        {
+          "name": "hero-banner",
+          "instances": [
+            ".teaser.cmp-teaser--hero.cmp-teaser--imagebottom",
+            ".cmp-teaser--hero.cmp-teaser--imagebottom"
+          ]
+        }
+      ],
+      "representativeUrl": "https://wknd.site/us/en.html"
     },
     {
       "name": "magazine-article",
@@ -110,7 +195,19 @@
       ],
       "coverageGaps": [],
       "description": "Long-form article: hero header, breadcrumbs and stacked default-content prose sections.",
-      "blocks": []
+      "blocks": [
+        {
+          "name": "hero-banner",
+          "instances": [
+            ".teaser.cmp-teaser--hero",
+            ".cmp-teaser--hero"
+          ]
+        }
+      ],
+      "representativeUrl": "https://wknd.site/us/en/magazine/san-diego-surf.html"
     }
-  ]
+  ],
+  "metadata": {
+    "projectType": "da"
+  }
 }

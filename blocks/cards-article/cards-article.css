@@ -1,0 +1,77 @@
+/* cards-article — grid of linked article cards (image + title + description) */
+
+/* Values extracted from source: wknd.site/us/en/magazine.html (ul.cmp-image-list) */
+
+.cards-article > ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px 24px;
+}
+
+/* Card: plain — no background, border, radius or shadow (matches source) */
+.cards-article > ul > li {
+  background-color: transparent;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  margin: 0;
+}
+
+/* Image cell: image spans full card width, aspect ratio 13/10 (260x200 in source) */
+.cards-article .cards-article-card-image {
+  line-height: 0;
+}
+
+.cards-article .cards-article-card-image img {
+  width: 100%;
+  aspect-ratio: 13 / 10;
+  object-fit: cover;
+  display: block;
+}
+
+/* Body cell */
+.cards-article .cards-article-card-body {
+  margin: 0;
+}
+
+/* Title — Source Sans Pro, uppercase, semibold, dark (overrides global Asar h3) */
+.cards-article .cards-article-card-body h3 {
+  margin: 4px 0 0;
+  font-family: var(--body-font-family);
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 27px;
+  text-transform: uppercase;
+  color: var(--text-color);
+}
+
+.cards-article .cards-article-card-body h3 a:any-link {
+  color: var(--text-color);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.cards-article .cards-article-card-body h3 a:hover {
+  text-decoration: none;
+}
+
+/* Description — uppercase, muted gray, 14px */
+.cards-article .cards-article-card-body p {
+  margin: 16px 0 0;
+  font-family: var(--body-font-family);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 21px;
+  text-transform: uppercase;
+  color: rgb(105 105 105);
+}
+
+/* Desktop — 4-up grid matching source (~260px cards) */
+@media (width >= 900px) {
+  .cards-article > ul {
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  }
+}

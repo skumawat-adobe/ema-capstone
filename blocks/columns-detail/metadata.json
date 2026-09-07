@@ -1,0 +1,40 @@
+{
+  "variantName": "columns-detail",
+  "baseBlock": "columns",
+  "version": "1.0.0",
+  "created": "2026-09-07T00:00:00.000Z",
+  "sourceContext": {
+    "originUrl": "https://wknd.site/us/en/adventures/downhill-skiing-wyoming.html",
+    "originPage": "adventure detail page",
+    "blockPosition": "middle"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "spacious",
+    "purpose": "detail",
+    "imagePattern": "large"
+  },
+  "contentPattern": {
+    "structure": "narrow spec/detail column + wide long-form content column (headings, images, prose, lists)",
+    "buttonCount": 0,
+    "imageCount": 3,
+    "columnCount": 2
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "detail/overview pages with a narrow metadata sidebar and wide body content",
+      "two-column layouts pairing a spec/attribute list with long-form prose",
+      "flattened tabbed content presented alongside a details panel"
+    ],
+    "notSuitableFor": [
+      "featured article promos on tinted backgrounds (use columns-featured)",
+      "repeating card grids (use cards-article)",
+      "full-width hero banners"
+    ]
+  },
+  "usage": {
+    "pagesUsing": ["/us/en/adventures/downhill-skiing-wyoming"],
+    "reuseCount": 1,
+    "lastUsed": "2026-09-07T00:00:00.000Z"
+  }
+}

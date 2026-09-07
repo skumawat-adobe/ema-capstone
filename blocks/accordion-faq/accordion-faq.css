@@ -1,0 +1,85 @@
+/* Block: accordion-faq — visual design migrated from wknd.site/us/en/faqs.html
+ * Source: WKND Core Components accordion (.cmp-accordion).
+ * Values extracted from source computed styles. Decorated DOM:
+ *   .accordion-faq > details.accordion-faq-item
+ *     > summary.accordion-faq-item-label > p   (question)
+ *     > div.accordion-faq-item-body > p        (answer)
+ */
+
+.accordion-faq {
+  color: var(--text-color);
+}
+
+/* accordion item — no box border in source, items sit flush (no gap) */
+.accordion-faq .accordion-faq-item {
+  border: none;
+}
+
+/* question header — 2px light-grey divider under each row (source #ebebeb) */
+.accordion-faq .accordion-faq-item-label {
+  position: relative;
+  margin: 0;
+  padding: 13px 40px 13px 0;
+  border-bottom: 2px solid #ebebeb;
+  list-style: none;
+  cursor: pointer;
+}
+
+.accordion-faq .accordion-faq-item-label::-webkit-details-marker {
+  display: none;
+}
+
+/* question text — Source Sans Pro, semibold, uppercase, black (overrides global p) */
+.accordion-faq .accordion-faq-item-label p {
+  margin: 0;
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.25;
+  color: #000;
+  text-transform: uppercase;
+}
+
+/* expand/collapse icon — thin "+" that becomes "-" when open */
+.accordion-faq .accordion-faq-item-label::before,
+.accordion-faq .accordion-faq-item-label::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  background-color: #000;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+/* horizontal bar (always visible) */
+.accordion-faq .accordion-faq-item-label::before {
+  right: 6px;
+  width: 16px;
+  height: 2px;
+  transform: translateY(-50%);
+}
+
+/* vertical bar (hidden when open -> forms a minus) */
+.accordion-faq .accordion-faq-item-label::after {
+  right: 13px;
+  width: 2px;
+  height: 16px;
+  transform: translateY(-50%);
+}
+
+.accordion-faq .accordion-faq-item[open] .accordion-faq-item-label::after {
+  opacity: 0;
+  transform: translateY(-50%) rotate(90deg);
+}
+
+/* answer body — 14px, indented slightly (source padding 7px 0 0 7px) */
+.accordion-faq .accordion-faq-item-body {
+  padding: 7px 0 0 7px;
+}
+
+.accordion-faq .accordion-faq-item-body p {
+  margin: 0 0 13.5px;
+  font-family: var(--body-font-family);
+  font-size: 14px;
+  line-height: 1.75;
+  color: var(--text-color);
+}

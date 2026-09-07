@@ -1,0 +1,39 @@
+{
+  "variantName": "hero-banner",
+  "baseBlock": "hero",
+  "version": "1.0.0",
+  "created": "2026-09-07T00:00:00.000Z",
+  "sourceContext": {
+    "originUrl": "https://wknd.site/us/en.html",
+    "originPage": "locale homepage",
+    "blockPosition": "middle"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "dark",
+    "density": "spacious",
+    "purpose": "hero",
+    "imagePattern": "large"
+  },
+  "contentPattern": {
+    "structure": "background image + heading + description + CTA",
+    "buttonCount": 1,
+    "imageCount": 1
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "single full-width promotional banner",
+      "photographic background with overlaid heading and CTA",
+      "mid-page feature banners"
+    ],
+    "notSuitableFor": [
+      "multi-slide rotating banners (use carousel-hero)",
+      "text-heavy content sections",
+      "side-by-side image/text (use columns-featured)"
+    ]
+  },
+  "usage": {
+    "pagesUsing": ["/us/en", "/us/en/magazine/san-diego-surf", "/us/en/adventures"],
+    "reuseCount": 3,
+    "lastUsed": "2026-09-07T15:10:00.000Z"
+  }
+}
