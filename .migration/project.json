@@ -1,0 +1,11 @@
+{
+  "type": "da",
+  "sites": {
+    "ema-capstone": {
+      "previewOrg": "skumawat-adobe",
+      "previewSite": "ema-capstone",
+      "contentHostUrl": "https://content.da.live/skumawat-adobe/ema-capstone/",
+      "libraryUrl": "https://main--sta-boilerplate--aemdemos.aem.page/tools/sidekick/library.json"
+    }
+  }
+}

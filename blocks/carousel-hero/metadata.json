@@ -1,0 +1,40 @@
+{
+  "variantName": "carousel-hero",
+  "baseBlock": "carousel",
+  "version": "1.0.0",
+  "created": "2026-09-07T00:00:00.000Z",
+  "sourceContext": {
+    "originUrl": "https://wknd.site/us/en.html",
+    "originPage": "locale homepage",
+    "blockPosition": "top"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "dark",
+    "density": "spacious",
+    "purpose": "hero",
+    "imagePattern": "large"
+  },
+  "contentPattern": {
+    "structure": "image + heading + description + CTA",
+    "buttonCount": 1,
+    "imageCount": 1,
+    "slideCount": 3
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "full-width rotating hero banners",
+      "landing page top-of-page promotional slides",
+      "photographic backgrounds with overlaid heading and CTA"
+    ],
+    "notSuitableFor": [
+      "single static banner (use hero-banner)",
+      "text-only slide decks",
+      "product image galleries without text"
+    ]
+  },
+  "usage": {
+    "pagesUsing": ["/us/en", "/us/en/adventures/downhill-skiing-wyoming"],
+    "reuseCount": 2,
+    "lastUsed": "2026-09-07T15:22:00.000Z"
+  }
+}

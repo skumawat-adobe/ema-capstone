@@ -1,0 +1,119 @@
+/*
+ * columns-featured — featured article teaser.
+ * Values extracted from source computed styles (.teaser.cmp-teaser--featured
+ * on wknd.site/us/en/magazine.html). Mobile-first: stacked image over grey
+ * text panel; desktop places the image on the left (~2/3) and the grey text
+ * panel on the right (~1/3).
+ */
+
+.columns-featured {
+  color: var(--text-color);
+}
+
+/* row */
+.columns-featured > div {
+  display: flex;
+  flex-direction: column;
+}
+
+/* text panel — grey background, generous padding (source rgb(235, 235, 235)) */
+.columns-featured > div > div {
+  order: 1;
+  background-color: #ebebeb;
+  padding: 40px 24px;
+}
+
+/* image cell */
+.columns-featured > div > .columns-featured-img-col {
+  order: 0;
+  background-color: transparent;
+  padding: 0;
+}
+
+.columns-featured img {
+  display: block;
+  width: 100%;
+}
+
+/* eyebrow — first paragraph, bold (source font-weight 700) */
+.columns-featured > div > div > p:first-child {
+  margin: 0 0 13.5px;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+/* title */
+.columns-featured h2 {
+  margin: 18px 0;
+  font-family: var(--heading-font-family);
+  font-size: var(--heading-font-size-xl);
+  font-weight: 400;
+  line-height: 54px;
+  color: var(--text-color);
+}
+
+/* description */
+/* stylelint-disable-next-line no-descending-specificity */
+.columns-featured > div > div > p {
+  font-size: var(--body-font-size-m);
+  color: var(--text-color);
+}
+
+/* CTA — solid yellow block, uppercase, square corners.
+   The Read More link is the last paragraph in the text cell. EDS does not
+   auto-decorate it as a .button here, so target the anchor directly (and
+   also cover the .button variant to override the global button reset). */
+.columns-featured > div > div > p:last-child a:any-link,
+.columns-featured a.button:any-link {
+  display: inline-block;
+  margin: 18px 0 0;
+  border: none;
+  border-radius: 0;
+  padding: 14px 35px;
+  background-color: rgb(255 234 0);
+  color: var(--text-color);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.25;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: normal;
+}
+
+.columns-featured > div > div > p:last-child a:any-link:hover,
+.columns-featured > div > div > p:last-child a:any-link:focus-visible,
+.columns-featured a.button:any-link:hover,
+.columns-featured a.button:any-link:focus-visible {
+  background-color: rgb(255 234 0);
+  color: var(--text-color);
+  text-decoration: none;
+}
+
+.columns-featured .button-container {
+  margin: 0;
+}
+
+@media (width >= 900px) {
+  /* image left, text right (source uses flex-direction: row-reverse) */
+  .columns-featured > div {
+    flex-direction: row-reverse;
+    align-items: stretch;
+  }
+
+  .columns-featured > div > div {
+    order: unset;
+    flex: 1 1 0;
+    padding: 63px 36px 36px;
+  }
+
+  .columns-featured > div > .columns-featured-img-col {
+    order: unset;
+    flex: 2 1 0;
+  }
+
+  /* image fills the full height of the grey panel */
+  .columns-featured > div > .columns-featured-img-col img {
+    height: 100%;
+    object-fit: cover;
+  }
+}
