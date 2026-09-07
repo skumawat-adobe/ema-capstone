@@ -1,35 +1,100 @@
-/* WKND header — transparent bar, dark text, centered logo. Mobile-first. */
+/* WKND header — dark utility bar over a white main bar. Mobile-first. */
 
 header .nav-wrapper {
   width: 100%;
   z-index: 2;
-  position: fixed;
-  background-color: transparent;
+  position: relative;
+  background-color: var(--background-color);
 }
 
 header nav {
+  font-family: var(--body-font-family);
+  color: var(--text-color);
+}
+
+/* ---------- Tier 1: dark utility bar ---------- */
+header nav .nav-utility {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 24px;
+  min-height: 25px;
+  padding: 2px 16px;
+  background-color: var(--dark-color);
+  color: #ebebeb;
+}
+
+header nav .nav-signin {
+  margin: 0;
+}
+
+header nav .nav-utility a:any-link,
+header nav .nav-locale-toggle {
+  color: #ebebeb;
+  font-size: var(--body-font-size-xs);
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+header nav .nav-utility a:hover,
+header nav .nav-utility a:focus {
+  color: #fff;
+  text-decoration: underline;
+}
+
+/* locale toggle: flag + label + caret */
+header nav .nav-locale {
+  position: relative;
+}
+
+header nav .nav-locale-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+header nav .nav-locale-flag {
+  display: inline-block;
+  width: 22px;
+  height: 16px;
+  background: url('/blocks/header/icons/flag-us.svg') center / cover no-repeat;
+}
+
+header nav .nav-locale-toggle::after {
+  content: '';
+  width: 7px;
+  height: 7px;
+  border-right: 2px solid #ebebeb;
+  border-bottom: 2px solid #ebebeb;
+  transform: rotate(45deg) translateY(-2px);
+}
+
+/* ---------- Tier 2: white main bar ---------- */
+header nav .nav-main {
   box-sizing: border-box;
   display: grid;
   grid-template:
     'hamburger brand' var(--nav-height)
     'sections sections' auto
-    'locale locale' auto / auto minmax(0, 1fr);
+    'search search' auto / auto 1fr;
   align-items: center;
   gap: 0 16px;
-  margin: auto;
-  max-width: 1200px;
-  padding: 0;
-  font-family: var(--body-font-family);
-  line-height: 1.5;
-  color: var(--text-color);
+  max-width: 1136px;
+  margin: 0 auto;
+  padding: 0 16px;
 }
 
-/* hamburger (mobile only) — top bar gets side padding; drawer items stay flush */
+/* hamburger (mobile only) */
 header nav .nav-hamburger {
   grid-area: hamburger;
   display: flex;
   align-items: center;
-  padding-left: 16px;
 }
 
 header nav .nav-hamburger button {
@@ -56,31 +121,12 @@ header nav .nav-hamburger-icon::after {
 header nav .nav-hamburger-icon::before { top: -6px; }
 header nav .nav-hamburger-icon::after { top: 4px; }
 
-/* utility "Sign In" link */
-header nav .nav-signin {
-  margin: 0;
-  font-size: var(--body-font-size-xs);
-}
-
-header nav .nav-signin a:any-link {
-  color: var(--text-color);
-  text-decoration: none;
-}
-
-header nav .nav-signin a:hover,
-header nav .nav-signin a:focus {
-  color: var(--text-color);
-  text-decoration: underline;
-}
-
 /* brand / logo */
 header nav .nav-brand {
   grid-area: brand;
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 16px;
-  padding-right: 16px;
+  margin: 0;
 }
 
 header nav .nav-brand p { margin: 0; }
@@ -91,19 +137,23 @@ header nav .nav-brand img {
 }
 
 /* search input */
+header nav .nav-search {
+  grid-area: search;
+}
+
 header nav .nav-search input {
   box-sizing: border-box;
-  height: 32px;
+  width: 100%;
+  height: 42px;
   padding: 0 12px;
-  border: 1px solid var(--text-color);
-  border-radius: 16px;
-  background: transparent;
+  border: 0;
+  background: rgb(235 235 235 / 54%);
   color: var(--text-color);
   font: inherit;
   font-size: var(--body-font-size-xs);
 }
 
-/* primary nav + locale collapse under hamburger on mobile */
+/* primary nav — collapsed under hamburger on mobile */
 header nav ul.nav-sections {
   grid-area: sections;
   display: none;
@@ -121,17 +171,8 @@ header nav ul.nav-sections li {
   width: 100%;
 }
 
-header nav .nav-locale {
-  grid-area: locale;
-  display: none;
-}
-
 header nav[aria-expanded='true'] ul.nav-sections {
   display: flex;
-}
-
-header nav[aria-expanded='true'] .nav-locale {
-  display: block;
 }
 
 header nav .nav-sections a:any-link {
@@ -152,23 +193,21 @@ header nav .nav-sections a:focus {
   text-decoration: underline;
 }
 
-/* locale toggle + country grid */
-header nav .nav-locale-toggle {
-  border: 0;
-  background: transparent;
-  color: var(--text-color);
-  font: inherit;
-  cursor: pointer;
-  padding: 4px 0;
+/* Source hides the redundant "Home" nav item (logo already links home);
+   keep it in the DOM for parity but hide it visually. */
+header nav ul.nav-sections > li:first-child:has(a[href$="/us/en.html"]) {
+  display: none;
 }
 
+/* locale country-grid panel */
 header nav ul.nav-locale-panel {
   margin: 8px 0;
-  padding: 0;
+  padding: 12px;
   list-style: none;
   display: grid;
   grid-template-columns: 1fr;
   gap: 12px;
+  color: var(--text-color);
 }
 
 header nav ul.nav-locale-panel[hidden] {
@@ -198,65 +237,52 @@ header nav ul.nav-locale-panel a:focus {
 }
 
 @media (width >= 900px) {
-  header nav {
-    grid-template:
-      'locale locale locale' auto
-      'brand sections search' auto / auto 1fr auto;
-    align-items: center;
-    gap: 0 32px;
-    max-width: 1136px;
-    padding: 8px 0 16px;
+  header nav .nav-utility {
+    padding: 2px 32px;
+    gap: 32px;
   }
 
-  /* no hamburger on desktop */
+  /* main bar: logo left, nav + search right, single row */
+  header nav .nav-main {
+    grid-template: 'brand sections search' var(--nav-height) / auto 1fr auto;
+    gap: 0 32px;
+    padding: 24px 32px;
+  }
+
   header nav .nav-hamburger {
     display: none;
   }
 
-  /* logo left-aligned */
-  header nav .nav-brand {
-    grid-area: brand;
-    justify-content: flex-start;
-  }
-
-  header nav .nav-search {
-    grid-area: search;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-  }
-
-  /* primary nav sits to the right of the logo, left-aligned */
+  /* nav sits right, before search */
   header nav ul.nav-sections {
     display: flex;
     flex-direction: row;
-    justify-content: flex-start;
+    justify-content: flex-end;
+    align-items: center;
     gap: 32px;
+    width: auto;
     margin: 0;
   }
 
   header nav .nav-sections a:any-link {
     display: inline;
     width: auto;
+    padding: 0;
     font-size: var(--body-font-size-xs);
     font-weight: 400;
   }
 
-  /* locale toggle sits on its own row, top-left; panel drops as an absolute box */
-  header nav .nav-locale {
-    display: block;
-    grid-area: locale;
-    position: relative;
-    justify-self: start;
+  header nav .nav-search {
+    width: 166px;
   }
 
+  /* locale panel drops as an absolute box under the toggle */
   header nav ul.nav-locale-panel {
     position: absolute;
     top: 100%;
-    left: 0;
+    right: 0;
     z-index: 3;
-    min-width: 180px;
-    padding: 12px;
+    min-width: 200px;
     background: var(--background-color);
     box-shadow: 0 2px 8px rgb(0 0 0 / 15%);
   }
