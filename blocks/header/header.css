@@ -63,7 +63,7 @@ header nav .nav-locale-flag {
   display: inline-block;
   width: 22px;
   height: 16px;
-  background: url('/content/images/flag-us.svg') center / cover no-repeat;
+  background: url('/blocks/header/icons/flag-us.svg') center / cover no-repeat;
 }
 
 header nav .nav-locale-toggle::after {
