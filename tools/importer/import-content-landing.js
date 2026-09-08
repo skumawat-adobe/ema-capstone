@@ -96,6 +96,32 @@ export default {
 
     executeTransformers('afterTransform', main, payload);
 
+    // Magazine listing only: replace the parsed article-card grid with a DYNAMIC
+    // config stub driven by query-index.json (source = /{loc}/en/magazine/,
+    // filtered to article pages). Other content-landing pages (About Us) have no
+    // cards-article block, so this is a no-op there.
+    const landingPath = new URL(params.originalURL).pathname
+      .replace(/\/$/, '')
+      .replace(/\.html?$/, '');
+    if (/\/magazine$/.test(landingPath)) {
+      const cardsBlock = [...main.querySelectorAll('table')]
+        .find((t) => {
+          const head = t.querySelector('tr');
+          // createBlock humanizes the name: "cards-article" -> "Cards Article".
+          return head && /^cards[\s-]article$/i.test(head.textContent.trim());
+        });
+      if (cardsBlock) {
+        const stub = WebImporter.Blocks.createBlock(document, {
+          name: 'cards-article',
+          cells: [
+            ['source', `${landingPath}/`],
+            ['filter', 'article'],
+          ],
+        });
+        cardsBlock.replaceWith(stub);
+      }
+    }
+
     const hr = document.createElement('hr');
     main.appendChild(hr);
     WebImporter.rules.createMetadata(main, document);
