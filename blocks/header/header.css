@@ -202,40 +202,85 @@ header nav ul.nav-sections > li.nav-home-hidden {
   display: none;
 }
 
-/* locale country-grid panel */
+/* locale country-grid panel — dark panel matching the source */
 header nav ul.nav-locale-panel {
   margin: 8px 0;
-  padding: 12px;
+  padding: 0 14px;
   list-style: none;
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 12px;
-  color: var(--text-color);
+  display: block;
+  background: var(--dark-color);
+  color: #ebebeb;
 }
 
 header nav ul.nav-locale-panel[hidden] {
   display: none;
 }
 
-header nav ul.nav-locale-panel > li > p {
-  margin: 0 0 4px;
-  font-weight: 600;
+/* one country per row: flag icon + name + locale links, divided by a hairline */
+header nav ul.nav-locale-panel > li {
+  position: relative;
+  padding: 8px 0 15px 45px;
+  border-bottom: 1px solid #696969;
 }
 
+header nav ul.nav-locale-panel > li:last-child {
+  border-bottom: 0;
+}
+
+/* country flag (left of the row) */
+header nav ul.nav-locale-panel > li.nav-locale-country::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 10px;
+  width: 22px;
+  height: 16px;
+  background: center / cover no-repeat;
+}
+
+header nav ul.nav-locale-panel > li.nav-locale-country-us::before { background-image: url('/blocks/header/icons/flag-us.svg'); }
+header nav ul.nav-locale-panel > li.nav-locale-country-ca::before { background-image: url('/blocks/header/icons/flag-ca.svg'); }
+header nav ul.nav-locale-panel > li.nav-locale-country-ch::before { background-image: url('/blocks/header/icons/flag-ch.svg'); }
+header nav ul.nav-locale-panel > li.nav-locale-country-de::before { background-image: url('/blocks/header/icons/flag-de.svg'); }
+header nav ul.nav-locale-panel > li.nav-locale-country-fr::before { background-image: url('/blocks/header/icons/flag-fr.svg'); }
+header nav ul.nav-locale-panel > li.nav-locale-country-es::before { background-image: url('/blocks/header/icons/flag-es.svg'); }
+header nav ul.nav-locale-panel > li.nav-locale-country-it::before { background-image: url('/blocks/header/icons/flag-it.svg'); }
+
+/* country name */
+header nav ul.nav-locale-panel > li > p {
+  margin: 0 0 4px;
+  font-size: 12px;
+  font-weight: 400;
+  text-transform: uppercase;
+  color: #ebebeb;
+}
+
+/* locale links laid out inline, separated by "|" dividers */
 header nav ul.nav-locale-panel ul {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
+header nav ul.nav-locale-panel ul > li + li::before {
+  content: '|';
+  margin: 0 8px;
+  color: #696969;
+}
+
 header nav ul.nav-locale-panel a:any-link {
-  color: var(--link-color);
+  color: #ebebeb;
+  font-size: 14px;
+  text-transform: uppercase;
   text-decoration: none;
 }
 
 header nav ul.nav-locale-panel a:hover,
 header nav ul.nav-locale-panel a:focus {
-  color: var(--link-hover-color);
+  color: #fff;
   text-decoration: underline;
 }
 
@@ -279,14 +324,15 @@ header nav ul.nav-locale-panel a:focus {
     width: 166px;
   }
 
-  /* locale panel drops as an absolute box under the toggle */
+  /* locale panel drops as an absolute dark box under the toggle */
   header nav ul.nav-locale-panel {
     position: absolute;
     top: 100%;
     right: 0;
     z-index: 3;
-    min-width: 200px;
-    background: var(--background-color);
-    box-shadow: 0 2px 8px rgb(0 0 0 / 15%);
+    width: 194px;
+    margin: 0;
+    background: var(--dark-color);
+    box-shadow: 0 2px 8px rgb(0 0 0 / 30%);
   }
 }
