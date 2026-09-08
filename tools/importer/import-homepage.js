@@ -116,6 +116,40 @@ export default {
     // 4. afterTransform cleanup
     executeTransformers('afterTransform', main, payload);
 
+    // 4b. Replace each curated cards-article grid with a DYNAMIC config stub so
+    // the homepage grids are query-index driven (first N from the index). The
+    // homepage has two grids — "Recent Articles" (magazine) and "Where do you
+    // want to go?" (adventures) — told apart by the detail links inside each.
+    // Curated homepage grids show a small fixed count and no category filter.
+    // Homepage path e.g. /us/en(.html) → locale prefix /us/en/. The homepage is
+    // the locale root, so its own path IS the locale folder.
+    const localePrefix = `${new URL(params.originalURL).pathname
+      .replace(/\.html?$/, '')
+      .replace(/\/+$/, '')}/`;
+    [...main.querySelectorAll('table')]
+      .filter((t) => {
+        const head = t.querySelector('tr');
+        return head && /^cards[\s-]article$/i.test(head.textContent.trim());
+      })
+      .forEach((table) => {
+        const links = [...table.querySelectorAll('a[href]')].map((a) => a.getAttribute('href') || '');
+        const isMagazine = links.some((h) => /\/magazine\//.test(h));
+        const isAdventures = links.some((h) => /\/adventures\//.test(h));
+        // Ambiguous/empty grids are left untouched.
+        if (!isMagazine && !isAdventures) return;
+        const filter = isMagazine ? 'article' : 'adventure';
+        const stub = WebImporter.Blocks.createBlock(document, {
+          name: 'cards-article',
+          cells: [
+            ['source', `${localePrefix}/`],
+            ['filter', filter],
+            ['limit', '4'],
+            ['filters', 'false'],
+          ],
+        });
+        table.replaceWith(stub);
+      });
+
     // 5. WebImporter built-in rules
     const hr = document.createElement('hr');
     main.appendChild(hr);

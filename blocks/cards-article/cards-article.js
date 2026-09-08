@@ -147,10 +147,12 @@ async function decorateDynamic(block, cfg) {
     entries = [];
   }
 
-  const source = (cfg.source || '').replace(/\.html?$/, '');
+  // Normalize the source prefix to a single trailing slash so it matches index
+  // paths regardless of how the config value was serialized (e.g. "/us/en//").
+  const source = (cfg.source || '').replace(/\.html?$/, '').replace(/\/+$/, '');
   const filterTemplate = (cfg.filter || cfg.template || '').toLowerCase();
   entries = entries.filter((e) => {
-    if (source && !(e.path || '').startsWith(source)) return false;
+    if (source && !(e.path || '').startsWith(`${source}/`)) return false;
     if (filterTemplate && (e.template || '').toLowerCase() !== filterTemplate) return false;
     return true;
   });
