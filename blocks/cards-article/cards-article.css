@@ -2,6 +2,40 @@
 
 /* Values extracted from source: wknd.site/us/en/magazine.html (ul.cmp-image-list) */
 
+/* Category filter tabs (Adventures listing only) — dark active pill, plain rest */
+.cards-article .cards-article-filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin: 0 0 24px;
+}
+
+.cards-article .cards-article-filter-tab {
+  padding: 8px 16px;
+  border: 0;
+  background: transparent;
+  color: var(--text-color);
+  font-family: var(--body-font-family);
+  font-size: 14px;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.cards-article .cards-article-filter-tab[aria-selected='true'] {
+  background: var(--dark-color);
+  color: #fff;
+}
+
+.cards-article .cards-article-filter-tab:hover,
+.cards-article .cards-article-filter-tab:focus-visible {
+  background: var(--dark-color);
+  color: #fff;
+}
+
+.cards-article > ul > li[hidden] {
+  display: none;
+}
+
 .cards-article > ul {
   list-style: none;
   margin: 0;

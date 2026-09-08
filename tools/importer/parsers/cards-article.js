@@ -39,6 +39,17 @@ export default function parse(element, { document }) {
     const description = item.querySelector('.cmp-image-list__item-description');
     if (description) contentCell.push(description);
 
+    // Category-listing (Adventures) only: the cleanup transformer stamps each
+    // card with its categories (read from the source tab panels). Emit them as a
+    // sentinel paragraph the cards-article block reads to build the filter tabs;
+    // cards without categories (homepage/magazine) are unaffected.
+    const cats = item.getAttribute && item.getAttribute('data-categories');
+    if (cats) {
+      const p = document.createElement('p');
+      p.textContent = `wknd-categories: ${cats}`;
+      contentCell.push(p);
+    }
+
     // Only add a card row if it has meaningful content.
     if (image || contentCell.length) {
       cells.push([image || '', contentCell]);

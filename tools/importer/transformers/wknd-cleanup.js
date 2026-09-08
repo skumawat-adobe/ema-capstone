@@ -40,6 +40,41 @@ export default function transform(hookName, element, payload) {
       .filter((t) => t.querySelector('.image-list'));
     if (cardTabs.length) {
       cardTabs.forEach((tabs) => {
+        // Before flattening, capture each adventure's categories from the
+        // per-category tab panels (tab label = category) and stamp them onto the
+        // matching card in the surviving active panel, so the filter tabs can be
+        // rebuilt downstream. This reads WKND's own tab structure — no hardcoded
+        // taxonomy.
+        const tabLabels = [...tabs.querySelectorAll('.cmp-tabs__tab')].map((t) => t.textContent.trim());
+        const panels = [...tabs.querySelectorAll('.cmp-tabs__tabpanel')];
+        const titleOf = (item) => {
+          const t = item.querySelector('.cmp-image-list__item-title');
+          return t ? t.textContent.trim() : '';
+        };
+        const catsByTitle = {};
+        panels.forEach((panel, i) => {
+          // Resolve this panel's tab label (prefer aria-labelledby, else index).
+          let label = tabLabels[i] || '';
+          const labelledBy = panel.getAttribute('aria-labelledby');
+          if (labelledBy) {
+            const tabEl = tabs.querySelector(`#${labelledBy}`);
+            if (tabEl) label = tabEl.textContent.trim();
+          }
+          if (!label || /^all$/i.test(label)) return;
+          panel.querySelectorAll('.cmp-image-list__item').forEach((item) => {
+            const title = titleOf(item);
+            if (!title) return;
+            (catsByTitle[title] = catsByTitle[title] || []).push(label);
+          });
+        });
+        const active = tabs.querySelector('.cmp-tabs__tabpanel--active') || panels[0];
+        if (active) {
+          active.querySelectorAll('.cmp-image-list__item').forEach((item) => {
+            const cats = catsByTitle[titleOf(item)];
+            if (cats && cats.length) item.setAttribute('data-categories', cats.join(','));
+          });
+        }
+
         tabs.querySelectorAll('.cmp-tabs__tabpanel:not(.cmp-tabs__tabpanel--active)')
           .forEach((p) => p.remove());
         tabs.querySelectorAll('.cmp-tabs__tablist').forEach((ol) => ol.remove());
