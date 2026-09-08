@@ -24,6 +24,27 @@ export default function transform(hookName, element, payload) {
       '#toggleNav',
       '#mobileNav',
     ]);
+
+    // Category-listing ONLY: the adventures grid is a tabbed set of image-list
+    // card panels. Per David's Model it flattens to a single grid — keep the
+    // active panel (consumed by the cards-article parser) and drop the inactive
+    // category panels + the inert tab-label list, which would otherwise leak as
+    // duplicate default-content lists after the cards block.
+    //
+    // Scope carefully to the CARD tabs only: remove an inactive tabpanel just
+    // when it contains an image-list card grid. Adventure-detail also uses tabs
+    // (Overview / Itinerary / What to Bring) but those carry content-fragment
+    // prose that columns-detail intentionally flattens in full — they must NOT
+    // be stripped here.
+    const cardTabs = [...element.querySelectorAll('.cmp-tabs')]
+      .filter((t) => t.querySelector('.image-list'));
+    if (cardTabs.length) {
+      cardTabs.forEach((tabs) => {
+        tabs.querySelectorAll('.cmp-tabs__tabpanel:not(.cmp-tabs__tabpanel--active)')
+          .forEach((p) => p.remove());
+        tabs.querySelectorAll('.cmp-tabs__tablist').forEach((ol) => ol.remove());
+      });
+    }
   }
 
   if (hookName === TransformHook.afterTransform) {
