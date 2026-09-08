@@ -106,15 +106,23 @@ Category assignments (from the WKND source filter tabs):
 `filter` stub row is just belt-and-suspenders. If you add it, set it to
 `adventure` on adventure pages and `article` on magazine pages.
 
-## Until the indexer is configured
+## Status: live indexer is active (cutover done)
 
-The repo keeps working today via the committed `query-index.json`. To refresh it
-after importing new detail pages:
+The query config above has been created via the Config Service
+(`PUT https://admin.hlx.page/config/skumawat-adobe/sites/ema-capstone/content/query.yaml`),
+AEM now generates `/query-index.json` automatically on publish, and the
+previously-committed static `query-index.json` has been removed — the indexer's
+version is the single source of truth. New detail pages are indexed on publish;
+no manual step is needed.
 
-```
-node tools/importer/build-query-index.js
-```
+`tools/importer/build-query-index.js` is retained only as a fallback for
+offline/local development; it is no longer part of the deploy.
 
-Once the tools.aem.live index above is live, that manual step is no longer
-needed — delete the committed `query-index.json` (and optionally the generator)
-so the indexer's version is the single source of truth.
+### Outstanding: add Category metadata
+
+The indexer fills `title`, `description`, and `image` from existing page meta,
+so all cards render. It cannot fill `category` until each adventure page carries
+a `Category` metadata row (see the table above). Until then the Adventures
+**category filter tabs do not appear** (the grid still shows all adventures).
+The block infers `adventure` vs `article` from the path, so the listings work
+without the `template` meta tag.

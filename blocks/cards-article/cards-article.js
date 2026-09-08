@@ -151,9 +151,20 @@ async function decorateDynamic(block, cfg) {
   // paths regardless of how the config value was serialized (e.g. "/us/en//").
   const source = (cfg.source || '').replace(/\.html?$/, '').replace(/\/+$/, '');
   const filterTemplate = (cfg.filter || cfg.template || '').toLowerCase();
+  // Resolve an entry's template: prefer the indexed field, else infer from its
+  // path. The AEM indexer only fills `template` once pages carry the meta tag,
+  // so the path fallback keeps the listings working before that is authored.
+  const templateOf = (e) => {
+    const t = (e.template || '').toLowerCase();
+    if (t) return t;
+    const p = e.path || '';
+    if (/\/adventures\//.test(p)) return 'adventure';
+    if (/\/magazine\//.test(p)) return 'article';
+    return '';
+  };
   entries = entries.filter((e) => {
     if (source && !(e.path || '').startsWith(`${source}/`)) return false;
-    if (filterTemplate && (e.template || '').toLowerCase() !== filterTemplate) return false;
+    if (filterTemplate && templateOf(e) !== filterTemplate) return false;
     return true;
   });
 
