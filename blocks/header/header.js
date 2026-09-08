@@ -79,6 +79,23 @@ export default async function decorate(block) {
     if (grid) {
       grid.classList.add('nav-locale-panel');
       grid.hidden = true;
+      // Tag each country row with a flag class (matched by country name) so CSS
+      // can render the corresponding flag icon, matching the source panel.
+      const flags = {
+        'united states': 'us',
+        canada: 'ca',
+        switzerland: 'ch',
+        germany: 'de',
+        france: 'fr',
+        spain: 'es',
+        italy: 'it',
+      };
+      grid.querySelectorAll(':scope > li').forEach((li) => {
+        const label = li.querySelector('p, span, strong');
+        const name = (label ? label.textContent : li.textContent).trim().toLowerCase();
+        const code = flags[name];
+        if (code) li.classList.add('nav-locale-country', `nav-locale-country-${code}`);
+      });
     }
     const toggle = document.createElement('button');
     toggle.type = 'button';
