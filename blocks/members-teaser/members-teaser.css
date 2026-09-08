@@ -1,0 +1,100 @@
+/*
+ * members-teaser — locked "Members Only" preview cards.
+ * Design extracted from the WKND Magazine page (.cmp-teaser--secure): a 2-across
+ * grid of cards, each with a yellow lock-flag corner over the title, an
+ * uppercase title, description, a grey "Read More" button, and a preview image
+ * below.
+ */
+
+.members-teaser ul {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 40px;
+  margin: 24px 0 48px;
+  padding: 0;
+  list-style: none;
+}
+
+.members-teaser-card {
+  display: flex;
+  flex-direction: column;
+}
+
+/* text block sits above the image */
+.members-teaser-card-body {
+  order: 1;
+}
+
+/* yellow lock-flag corner + uppercase title */
+.members-teaser-card-body h2 {
+  position: relative;
+  margin: 0;
+  padding-left: 34px;
+  font-family: var(--body-font-family);
+  font-size: 18px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--text-color);
+  line-height: 1.4;
+}
+
+.members-teaser-card-body h2::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: -2px;
+  width: 38px;
+  height: 38px;
+  background:
+    url('/blocks/members-teaser/icons/lock.svg') 8px center / 16px no-repeat,
+    rgb(255 234 0);
+
+  /* clipped to a downward flag/pennant like the source corner tag */
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 78%, 0 100%);
+}
+
+.members-teaser-card-body p {
+  margin: 12px 0 0;
+  font-family: var(--body-font-family);
+  font-size: 14px;
+  text-transform: uppercase;
+  color: rgb(112 112 112);
+}
+
+/* grey "Read More" button */
+.members-teaser-action {
+  margin: 20px 0 0;
+}
+
+.members-teaser-action strong {
+  display: inline-block;
+  padding: 12px 22px;
+  background-color: rgb(235 235 235);
+  color: var(--text-color);
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+/* preview image below the text */
+.members-teaser-card-image {
+  order: 2;
+  margin-top: 20px;
+  line-height: 0;
+}
+
+.members-teaser-card-image picture,
+.members-teaser-card-image img {
+  display: block;
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+@media (width >= 900px) {
+  .members-teaser ul {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 32px;
+  }
+}
