@@ -94,12 +94,23 @@ export default async function decorate(block) {
     localeSection.prepend(toggle);
   }
 
-  // Sign In utility link (pull it out of the brand section)
+  // Sign In utility link (pull it out of the brand section). Match by link text
+  // rather than href — the published fragment rewrites the source '#sign-in'
+  // anchor to '/', so an href selector would miss it.
   let signInWrap = null;
-  const signIn = brandSection && brandSection.querySelector('a[href="#sign-in"]');
+  const signIn = brandSection
+    && [...brandSection.querySelectorAll('a')].find((a) => a.textContent.trim().toLowerCase() === 'sign in');
   if (signIn) {
-    signInWrap = signIn.closest('p');
+    signInWrap = signIn.closest('p') || signIn;
     signInWrap.classList.add('nav-signin');
+  }
+
+  // Hide the redundant first "Home" nav item (logo already links home). Tag it
+  // by text so CSS hides it regardless of how the href is rewritten on publish.
+  if (navList) {
+    const homeItem = [...navList.querySelectorAll(':scope > li')]
+      .find((li) => li.textContent.trim().toLowerCase() === 'home');
+    if (homeItem) homeItem.classList.add('nav-home-hidden');
   }
 
   // hamburger for mobile
