@@ -87,6 +87,32 @@ export default {
 
     executeTransformers('afterTransform', main, payload);
 
+    // Replace the parsed cards-article grid with a DYNAMIC config stub so the
+    // listing is driven by query-index.json (source = this listing's folder).
+    // The cards-article block reads the stub, fetches the index, and renders +
+    // filters cards at runtime.
+    const listingPath = new URL(params.originalURL).pathname
+      .replace(/\/$/, '')
+      .replace(/\.html?$/, '');
+    // createBlock emits a <table> whose first row is the block name; find the
+    // cards-article table by that header cell.
+    const cardsBlock = [...main.querySelectorAll('table')]
+      .find((t) => {
+        const head = t.querySelector('tr');
+        // createBlock humanizes the name: "cards-article" -> "Cards Article".
+        return head && /^cards[\s-]article$/i.test(head.textContent.trim());
+      });
+    if (cardsBlock) {
+      const stub = WebImporter.Blocks.createBlock(document, {
+        name: 'cards-article',
+        cells: [
+          ['source', `${listingPath}/`],
+          ['filter', 'adventure'],
+        ],
+      });
+      cardsBlock.replaceWith(stub);
+    }
+
     const hr = document.createElement('hr');
     main.appendChild(hr);
     WebImporter.rules.createMetadata(main, document);
