@@ -30,6 +30,13 @@
           "instances": [
             ".cmp-experience-fragment--contributor"
           ]
+        },
+        {
+          "name": "members-teaser",
+          "instances": [
+            ".teaser.cmp-teaser--secure",
+            ".cmp-teaser--secure"
+          ]
         }
       ],
       "representativeUrl": "https://wknd.site/us/en/magazine.html"
