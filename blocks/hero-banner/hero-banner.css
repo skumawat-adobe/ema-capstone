@@ -66,6 +66,31 @@
   margin: 8px 0 0;
 }
 
+/* CTA — solid yellow button matching the source (rgb(255,234,0)) */
+.hero-banner a:any-link,
+.hero-banner a.button:any-link {
+  display: inline-block;
+  margin: 16px 0 0;
+  border: none;
+  border-radius: 0;
+  padding: 14px 35px;
+  background-color: rgb(255 234 0);
+  color: var(--text-color);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.25;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: normal;
+}
+
+.hero-banner a:any-link:hover,
+.hero-banner a:any-link:focus-visible {
+  background-color: rgb(255 234 0);
+  color: var(--text-color);
+  text-decoration: none;
+}
+
 /* --- No-image variant (e.g. magazine cover without a photo) --- */
 .hero-banner.no-image > div:last-child {
   padding: 0;

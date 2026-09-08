@@ -60,9 +60,50 @@
   object-fit: cover;
 }
 
-/* the mini carousel has no text overlay; hide the (empty) content cell */
-.carousel-hero .carousel-hero-slide .carousel-hero-slide-content {
+/* Image-only ("mini") carousels have an empty content cell — hide it.
+   Content-bearing carousels (homepage) keep an overlaid caption + CTA. */
+.carousel-hero .carousel-hero-slide .carousel-hero-slide-content:not(:has(a, h1, h2, h3, p)) {
   display: none;
+}
+
+/* caption overlay on content-bearing slides */
+.carousel-hero .carousel-hero-slide .carousel-hero-slide-content:has(a, h1, h2, h3, p) {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  z-index: 1;
+  box-sizing: border-box;
+  max-width: 460px;
+  margin: 24px;
+  padding: 24px 28px;
+  background: var(--background-color);
+  color: var(--text-color);
+  text-align: left;
+}
+
+/* CTA — solid yellow button matching the source (rgb(255,234,0)) */
+.carousel-hero .carousel-hero-slide-content a:any-link,
+.carousel-hero .carousel-hero-slide-content a.button:any-link {
+  display: inline-block;
+  margin: 12px 0 0;
+  border: none;
+  border-radius: 0;
+  padding: 14px 35px;
+  background-color: rgb(255 234 0);
+  color: var(--text-color);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.25;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: normal;
+}
+
+.carousel-hero .carousel-hero-slide-content a:any-link:hover,
+.carousel-hero .carousel-hero-slide-content a:any-link:focus-visible {
+  background-color: rgb(255 234 0);
+  color: var(--text-color);
+  text-decoration: none;
 }
 
 /* dot indicators — centered band below the image (source: margin-top 9px) */
