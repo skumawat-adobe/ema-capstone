@@ -58,17 +58,38 @@ export default function parse(element, { document }) {
   const shareHeading = specColumn.querySelector('.title .cmp-title__text');
   if (shareHeading && shareHeading.textContent.trim()) leftCell.push(shareHeading);
 
-  // Share links (Facebook/Pinterest). Anchors may have empty text in source; use href as label.
-  const shareLinks = specColumn.querySelectorAll('.sharing a[href]');
-  shareLinks.forEach((a) => {
-    const href = a.getAttribute('href');
-    if (!href) return;
-    if (!a.textContent.trim()) a.textContent = href;
-    leftCell.push(a);
+  // Share links (Facebook/Pinterest). The .sharing container is not reliably within the
+  // specColumn (main) scope, so search the whole block element. Source anchors often have
+  // empty text (icon-font buttons); build a FRESH anchor per href so the link survives even
+  // if WebImporter's built-in rules would drop the original empty-text node.
+  const shareHrefs = [...element.querySelectorAll('.sharing a[href]')]
+    .map((a) => a.getAttribute('href'))
+    .filter(Boolean);
+  shareHrefs.forEach((href) => {
+    const p = document.createElement('p');
+    const link = document.createElement('a');
+    link.setAttribute('href', href);
+    // Label from the destination host (e.g. "Pinterest") for a meaningful link text.
+    let label = href;
+    try { label = new URL(href).hostname.replace(/^www\./, '').split('.')[0]; } catch (e) { /* keep href */ }
+    link.textContent = label.charAt(0).toUpperCase() + label.slice(1);
+    p.appendChild(link);
+    leftCell.push(p);
   });
 
   // ---- RIGHT CELL: flattened tabbed content ----------------------------------------------
   const rightCell = [];
+
+  // Adventure title. The H1 lives in a ".title.cmp-title--underline" container at the grid
+  // level (sibling of main/.tabs), not inside either column. Emit it as an <h1> at the TOP of
+  // the content cell so the page has a visible title. The ".cmp-title--underline" qualifier
+  // avoids matching the "Share this Adventure" <h5> inside the spec column.
+  const pageTitle = element.querySelector('.cmp-title--underline .cmp-title__text');
+  if (pageTitle && pageTitle.textContent.trim()) {
+    const h1 = document.createElement('h1');
+    h1.textContent = pageTitle.textContent.trim();
+    rightCell.push(h1);
+  }
 
   const tabLabels = tabsColumn.querySelectorAll('.cmp-tabs__tab');
   const panels = tabsColumn.querySelectorAll('.cmp-tabs__tabpanel');
