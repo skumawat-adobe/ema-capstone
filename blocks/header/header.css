@@ -194,8 +194,9 @@ header nav .nav-sections a:focus {
 }
 
 /* Source hides the redundant "Home" nav item (logo already links home);
-   keep it in the DOM for parity but hide it visually. */
-header nav ul.nav-sections > li:first-child:has(a[href$="/us/en.html"]) {
+   keep it in the DOM for parity but hide it visually. Tagged by header.js
+   (nav-home-hidden) so it works regardless of href rewriting on publish. */
+header nav ul.nav-sections > li.nav-home-hidden {
   display: none;
 }
 
