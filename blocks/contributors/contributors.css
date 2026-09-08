@@ -1,0 +1,121 @@
+/*
+ * contributors — grid of profile cards.
+ * Design extracted from the WKND About Us page: 4-across (desktop) centered
+ * cards with a 164px circular photo, Asar name, uppercase role line, and a bar
+ * of dark 48x48 social buttons with light glyph icons.
+ */
+
+/* Short yellow underline under the section heading that introduces a
+   contributors grid ("Our Contributors", "WKND Guides"). The heading lives in
+   the default-content wrapper immediately preceding the block. Matches the
+   source's fixed 84px, 2px yellow rule. */
+.default-content-wrapper:has(+ .contributors-wrapper) h2::after {
+  content: '';
+  display: block;
+  width: 84px;
+  margin-top: 14px;
+  border-bottom: 2px solid rgb(255 234 0);
+}
+
+.contributors ul {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 40px 24px;
+  margin: 24px 0 48px;
+  padding: 0;
+  list-style: none;
+}
+
+.contributors-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+/* circular profile photo */
+.contributors-card-image {
+  width: 164px;
+  height: 164px;
+}
+
+.contributors-card-image picture,
+.contributors-card-image img {
+  display: block;
+  width: 164px;
+  height: 164px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.contributors-card-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.contributors-card-body h3 {
+  margin: 16px 0 0;
+  font-family: var(--heading-font-family);
+  font-size: var(--heading-font-size-m);
+  font-weight: 400;
+  color: var(--text-color);
+}
+
+.contributors-card-body h5 {
+  margin: 6px 0 0;
+  font-family: var(--body-font-family);
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--text-color);
+}
+
+/* dark social-icon bar */
+.contributors-card-social {
+  display: flex;
+  gap: 0;
+  justify-content: center;
+  margin: 16px 0 0;
+}
+
+.contributors-social-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  background-color: var(--dark-color);
+  transition: background-color 0.2s ease;
+}
+
+.contributors-social-link:hover,
+.contributors-social-link:focus {
+  background-color: rgb(255 234 0);
+}
+
+/* glyph masked from the shared footer social SVGs */
+.contributors-social-icon {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  background-color: #ebebeb;
+  mask: var(--icon) center / contain no-repeat;
+}
+
+.contributors-social-link:hover .contributors-social-icon,
+.contributors-social-link:focus .contributors-social-icon {
+  background-color: var(--dark-color);
+}
+
+@media (width >= 600px) {
+  .contributors ul {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (width >= 900px) {
+  .contributors ul {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}

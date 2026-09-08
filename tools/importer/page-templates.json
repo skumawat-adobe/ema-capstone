@@ -24,6 +24,12 @@
           "instances": [
             ".image-list.list"
           ]
+        },
+        {
+          "name": "contributors",
+          "instances": [
+            ".cmp-experience-fragment--contributor"
+          ]
         }
       ],
       "representativeUrl": "https://wknd.site/us/en/magazine.html"

@@ -4,6 +4,7 @@
 // PARSER IMPORTS
 import columnsFeaturedParser from './parsers/columns-featured.js';
 import cardsArticleParser from './parsers/cards-article.js';
+import contributorsParser from './parsers/contributors.js';
 
 // TRANSFORMER IMPORTS
 import cleanupTransformer from './transformers/wknd-cleanup.js';
@@ -12,6 +13,7 @@ import cleanupTransformer from './transformers/wknd-cleanup.js';
 const parsers = {
   'columns-featured': columnsFeaturedParser,
   'cards-article': cardsArticleParser,
+  contributors: contributorsParser,
 };
 
 // TRANSFORMER REGISTRY
@@ -33,6 +35,7 @@ const PAGE_TEMPLATE = {
   blocks: [
     { name: 'columns-featured', instances: ['.teaser.cmp-teaser--featured', '.cmp-teaser--featured'] },
     { name: 'cards-article', instances: ['.image-list.list'] },
+    { name: 'contributors', instances: ['.cmp-experience-fragment--contributor'] },
   ],
 };
 
