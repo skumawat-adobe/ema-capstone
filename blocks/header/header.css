@@ -187,10 +187,12 @@ header nav .nav-sections a:any-link {
   text-decoration: none;
 }
 
+/* Source highlights the hovered/focused nav item with a solid yellow block. */
 header nav .nav-sections a:hover,
 header nav .nav-sections a:focus {
   color: var(--text-color);
-  text-decoration: underline;
+  background-color: rgb(255 234 0);
+  text-decoration: none;
 }
 
 /* Source hides the redundant "Home" nav item (logo already links home);
@@ -260,15 +262,15 @@ header nav ul.nav-locale-panel a:focus {
     flex-direction: row;
     justify-content: flex-end;
     align-items: center;
-    gap: 32px;
+    gap: 0;
     width: auto;
     margin: 0;
   }
 
   header nav .nav-sections a:any-link {
-    display: inline;
+    display: inline-block;
     width: auto;
-    padding: 0;
+    padding: 15px 17px;
     font-size: var(--body-font-size-xs);
     font-weight: 400;
   }
