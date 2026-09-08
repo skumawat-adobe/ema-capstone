@@ -27,13 +27,22 @@ footer a:focus {
   text-decoration: underline;
 }
 
+/* top row: brand · nav · follow (stacked on mobile, single row on desktop) */
+footer .footer-top {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  margin: 0 0 8px;
+}
+
 /* brand logo */
 footer .footer-brand {
-  margin: 0 0 16px;
+  margin: 0;
 }
 
 footer .footer-brand img {
-  width: 120px;
+  width: 128px;
   height: auto;
 }
 
@@ -43,26 +52,39 @@ footer ul.footer-nav {
   flex-direction: column;
   gap: 8px;
   align-items: center;
-  margin: 0 0 24px;
+  margin: 0;
   padding: 0;
   list-style: none;
 }
 
-/* Follow Us heading */
+footer ul.footer-nav a {
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+/* Follow Us block (heading + icons) */
+footer .footer-follow {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
 footer .footer-content h4 {
-  margin: 0 0 12px;
+  margin: 0;
   color: #ebebeb;
   font-family: var(--body-font-family);
   font-weight: 600;
   text-transform: uppercase;
+  white-space: nowrap;
 }
 
-/* social icons */
+/* social icons — light-grey squares with dark glyphs, flush together (source) */
 footer ul.footer-social {
   display: flex;
-  gap: 16px;
+  gap: 0;
   justify-content: center;
-  margin: 0 0 24px;
+  margin: 0;
   padding: 0;
   list-style: none;
 }
@@ -71,35 +93,37 @@ footer ul.footer-social a {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  opacity: 0.85;
-  transition: opacity 0.2s ease;
+  width: 48px;
+  height: 48px;
+  background-color: #ebebeb;
+  transition: background-color 0.2s ease;
 }
 
 footer ul.footer-social a:hover,
 footer ul.footer-social a:focus {
-  opacity: 1;
+  background-color: #fff;
 }
 
 footer ul.footer-social img {
-  width: 24px;
-  height: 24px;
+  width: 20px;
+  height: 20px;
 }
 
 /* social glyphs rendered from the fragment's icon source via CSS mask */
 footer .footer-social-icon {
   display: inline-block;
-  width: 24px;
-  height: 24px;
-  background-color: #ebebeb;
+  width: 20px;
+  height: 20px;
+  background-color: #202020;
   mask: var(--icon) center / contain no-repeat;
 }
 
-/* legal / attribution */
+/* legal / attribution — full-width block below the top row */
 footer .footer-legal {
-  max-width: 900px;
-  margin: 0 auto 8px;
+  margin: 0 0 8px;
   color: #f7f7f7;
   line-height: 1.6;
+  text-align: left;
 }
 
 /* stylelint-disable-next-line no-descending-specificity */
@@ -108,8 +132,8 @@ footer .footer-legal a:any-link {
   text-decoration: underline;
 }
 
-/* first legal paragraph (copyright) separated by a divider */
-footer .footer-social + .footer-legal {
+/* first legal paragraph (copyright) separated from the top row by a divider */
+footer .footer-top + .footer-legal {
   margin-top: 16px;
   padding-top: 16px;
   border-top: 1px solid rgb(235 235 235 / 25%);
@@ -120,7 +144,22 @@ footer .footer-social + .footer-legal {
     padding: 16px 32px 24px;
   }
 
-  /* footer nav becomes a centered horizontal row on desktop */
+  /* top row: logo left, nav next, follow us pushed to the right */
+  footer .footer-top {
+    flex-direction: row;
+    align-items: center;
+    gap: 40px;
+  }
+
+  /* Follow Us heading sits inline, left of the icons; pushed to the right edge */
+  footer .footer-follow {
+    flex-direction: row;
+    align-items: center;
+    gap: 24px;
+    margin-left: auto;
+  }
+
+  /* footer nav becomes a horizontal row on desktop */
   footer ul.footer-nav {
     flex-direction: row;
     gap: 32px;
