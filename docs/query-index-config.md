@@ -118,11 +118,59 @@ no manual step is needed.
 `tools/importer/build-query-index.js` is retained only as a fallback for
 offline/local development; it is no longer part of the deploy.
 
-### Outstanding: add Category metadata
+Category metadata has been added to all adventure detail pages (via
+`import-adventure-detail.js`), so the index populates `category` and the
+Adventures filter tabs render from it. The block still infers `adventure` vs
+`article` from the path, so it does not depend on the `template` meta tag.
 
-The indexer fills `title`, `description`, and `image` from existing page meta,
-so all cards render. It cannot fill `category` until each adventure page carries
-a `Category` metadata row (see the table above). Until then the Adventures
-**category filter tabs do not appear** (the grid still shows all adventures).
-The block infers `adventure` vs `article` from the path, so the listings work
-without the `template` meta tag.
+## Verifying auto-indexing (new page appears automatically)
+
+The indexer regenerates `/query-index.json` whenever a matching page is
+published — no code change or manual index step. To confirm this end-to-end:
+
+1. **Pick/create a page** under an indexed path (`/{loc}/en/adventures/**` or
+   `/{loc}/en/magazine/**`) with at least a Title (and, for adventures, a
+   Category metadata row). A quick throwaway is fine — e.g.
+   `/us/en/adventures/zzz-index-test`.
+
+2. **Confirm it is NOT yet in the index:**
+
+   ```bash
+   BASE=https://main--ema-capstone--skumawat-adobe.aem.page
+   curl -s "$BASE/query-index.json" \
+     | python3 -c "import sys,json; d=json.load(sys.stdin); \
+       print('present:', any(r['path']=='/us/en/adventures/zzz-index-test' for r in d['data']), '| total:', d['total'])"
+   ```
+
+3. **Publish it** (preview + live):
+
+   ```bash
+   curl -s -X POST "https://admin.hlx.page/preview/skumawat-adobe/ema-capstone/main/us/en/adventures/zzz-index-test" -o /dev/null -w "preview:%{http_code}\n"
+   curl -s -X POST "https://admin.hlx.page/live/skumawat-adobe/ema-capstone/main/us/en/adventures/zzz-index-test"    -o /dev/null -w "live:%{http_code}\n"
+   ```
+
+4. **Re-fetch the index** (allow a few seconds; the rebuild is async). The new
+   path now appears and `total` has incremented, with `title` / `description` /
+   `image` / `category` filled from the page's own metadata:
+
+   ```bash
+   curl -s "$BASE/query-index.json?cb=$(date +%s)" \
+     | python3 -c "import sys,json; d=json.load(sys.stdin); \
+       row=[r for r in d['data'] if r['path']=='/us/en/adventures/zzz-index-test']; \
+       print('present:', bool(row), '| total:', d['total']); \
+       print(row[0] if row else 'not yet — retry in a few seconds')"
+   ```
+
+   The card then shows up automatically on the relevant listing/homepage grid
+   (and under its category tab) with no code or content change to the listing.
+
+5. **Clean up** the throwaway page (unpublish, then delete from DA source):
+
+   ```bash
+   curl -s -X DELETE "https://admin.hlx.page/live/skumawat-adobe/ema-capstone/main/us/en/adventures/zzz-index-test"    -o /dev/null -w "unpublish-live:%{http_code}\n"
+   curl -s -X DELETE "https://admin.hlx.page/preview/skumawat-adobe/ema-capstone/main/us/en/adventures/zzz-index-test" -o /dev/null -w "unpublish-preview:%{http_code}\n"
+   curl -s -X DELETE "https://admin.da.live/source/skumawat-adobe/ema-capstone/us/en/adventures/zzz-index-test.html"    -o /dev/null -w "delete-source:%{http_code}\n"
+   ```
+
+   Unpublishing also removes the row from the index automatically, confirming
+   the index tracks publish state in both directions.
