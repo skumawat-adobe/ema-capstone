@@ -150,6 +150,22 @@ export default {
         table.replaceWith(stub);
       });
 
+    // 4c. Buttonize the "All Articles" / "All Trips" CTAs. On the source these
+    // are cmp-button--primary (solid yellow); wrapping the link text in <strong>
+    // lets scripts.js decorateButtons() promote them to a.button.primary.
+    [...main.querySelectorAll('a[href]')].forEach((a) => {
+      const text = a.textContent.trim();
+      if (!/^(all articles|all trips)$/i.test(text)) return;
+      // link text must be the whole content of its immediate wrapper
+      const wrap = a.parentElement;
+      if (wrap && wrap.textContent.trim() !== text) return;
+      if (a.querySelector('strong')) return;
+      const strong = document.createElement('strong');
+      strong.textContent = text;
+      a.textContent = '';
+      a.appendChild(strong);
+    });
+
     // 5. WebImporter built-in rules
     const hr = document.createElement('hr');
     main.appendChild(hr);

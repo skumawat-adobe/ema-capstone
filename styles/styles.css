@@ -143,11 +143,13 @@ button.button {
   max-width: 100%;
   margin: 0;
   border: 2px solid transparent;
-  border-radius: 2.4em;
-  padding: 0.5em 1.2em;
+  border-radius: 0; /* WKND CTAs are square, not pills */
+  padding: 14px 35px;
   font: inherit;
-  font-weight: 500;
+  font-size: 14px;
+  font-weight: 600;
   line-height: 1.25;
+  text-transform: uppercase;
   text-decoration: none;
   cursor: pointer;
   overflow: hidden;
@@ -161,20 +163,22 @@ button.button:disabled {
   pointer-events: none;
 }
 
+/* WKND primary CTA — solid yellow with black text (cmp-button--primary). */
 a.button.primary,
 button.button.primary {
-  border-color: var(--text-color);
-  background-color: var(--text-color);
-  color: var(--background-color);
+  border-color: rgb(255 234 0);
+  background-color: rgb(255 234 0);
+  color: var(--text-color);
 }
 
 a.button.primary:hover,
 a.button.primary:focus-visible,
 button.button.primary:hover,
 button.button.primary:focus-visible {
-  border-color: var(--dark-color);
-  background-color: var(--dark-color);
-  color: var(--light-color);
+  border-color: rgb(255 234 0);
+  background-color: rgb(255 234 0);
+  color: var(--text-color);
+  text-decoration: none;
 }
 
 a.button.primary[aria-disabled="true"],
